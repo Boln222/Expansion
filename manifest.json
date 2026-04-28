@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "AI Text Simplifier",
+  "version": "2.0",
+  "description": "Упрощает выделенный текст с помощью Google Gemini AI - 3 уровня сложности",
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://generativelanguage.googleapis.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Text Simplifier"
+  }
+}
