@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Simplifier AI Pro</title>
+  <style>
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/otf/OpenDyslexic-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    
+    @font-face {
+      font-family: 'OpenDyslexic';
+      src: url('https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/otf/OpenDyslexic-Bold.otf') format('opentype');
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    :root {
+      --bg: #0f172a;
+      --glass: rgba(30, 41, 59, 0.8);
+      --accent: #7dd3fc;
+      --text: #f1f5f9;
+      --dyslexic-spacing: 0.8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'OpenDyslexic', 'Comic Neue', 'Comic Sans MS', sans-serif !important;
+      letter-spacing: var(--dyslexic-spacing);
+      line-height: 1.6;
+    }
+
+    body {
+      width: 380px;
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 0% 0%, rgba(125, 211, 252, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+      color: var(--text);
+      padding: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .logo-pulse {
+      width: 14px;
+      height: 14px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 15px var(--accent);
+    }
+
+    h1 {
+      font-size: 18px;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .section-label {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 12px;
+      display: block;
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+
+    .modes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .mode-item {
+      background: var(--glass);
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 18px 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mode-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .mode-item.active {
+      border-color: var(--accent);
+      background: rgba(125, 211, 252, 0.15);
+      box-shadow: 0 0 20px rgba(125, 211, 252, 0.1);
+    }
+
+    .mode-label {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--text);
+    }
+
+    .preview-box {
+      background: #fffbeb;
+      color: #0f172a;
+      padding: 20px;
+      border-radius: 16px;
+      font-size: 14px;
+      border: 3px solid var(--accent);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Принудительно применяем шрифт и для preview-box */
+    .preview-box,
+    .preview-box * {
+      font-family: 'OpenDyslexic', 'Comic Neue', 'Comic Sans MS', sans-serif !important;
+      letter-spacing: var(--dyslexic-spacing);
+      line-height: 1.6;
+    }
+
+    .preview-footer {
+      margin-top: 12px;
+      font-size: 11px;
+      color: #64748b;
+      text-align: center;
+    }
+
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 16px;
+    }
+
+    .status-link {
+      color: #475569;
+      font-size: 11px;
+      text-decoration: none;
+    }
+
+    /* Стиль для кнопки фокус-линейки */
+    .ruler-button {
+      width: 100%;
+      padding: 12px;
+      background: var(--glass);
+      border: 1px solid var(--accent);
+      color: var(--text);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 0;
+      margin-bottom: 28px;
+      transition: all 0.2s ease;
+    }
+
+    .ruler-button:hover {
+      background: rgba(125, 211, 252, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    /* Дополнительная гарантия для всех текстовых элементов */
+    span, div, p, h1, h2, h3, h4, button, .mode-label, .section-label, .preview-footer, .status-link {
+      font-family: 'OpenDyslexic', 'Comic Neue', 'Comic Sans MS', sans-serif !important;
+      letter-spacing: var(--dyslexic-spacing);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="brand">
+    <div class="logo-pulse"></div>
+    <h1>AI адаптация текста</h1>
+  </div>
+
+  <!-- Кнопка Фокус-линейка -->
+  <button id="rulerBtn" class="ruler-button">
+    <span>📏</span> Фокус-линейка
+  </button>
+
+  <div class="section">
+    <span class="section-label">Уровень упрощения</span>
+    <div class="modes-grid">
+      <div class="mode-item" data-level="1">
+        <span class="mode-label">Четко</span>
+      </div>
+      <div class="mode-item" data-level="2">
+        <span class="mode-label">Просто</span>
+      </div>
+      <div class="mode-item" data-level="3">
+        <span class="mode-label">Суть</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-label">Пример отображения</span>
+    <div class="preview-box">
+      Буквы имеют утяжеленное основание, чтобы они не переворачивались при чтении. Это помогает глазам фокусироваться.
+    </div>
+    <div class="preview-footer">
+      Интервал: 0.8px | Высота строки: 1.6
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
